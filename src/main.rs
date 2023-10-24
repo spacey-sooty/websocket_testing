@@ -1,3 +1,4 @@
+#![deny(warnings)]
 use std::net::{TcpListener, TcpStream};
 use std::io::{Read, self};
 
@@ -37,7 +38,12 @@ fn handle_client(mut stream: TcpStream) -> io::Result<()> {
     match parse_request_line(&request_line) {
         Ok(mut request) => {
             request.body = Some(String::from(r#"{"name": "John Doe", "email": "john.doe@example.com"}"#));
-            println!("\n {:#?}", request);
+            println!("\n Request: ");
+            println!("\n Method: {}", request.method);
+            println!("\n URI: {}", request.uri);
+            if request.body != None {
+                println!("\n Body: {}", request.body.unwrap());
+            }
         },
         Err(e) => println!("{:#?}", e),
     }
