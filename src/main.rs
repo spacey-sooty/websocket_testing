@@ -37,7 +37,7 @@ fn handle_client(mut stream: TcpStream) -> io::Result<()> {
 
     match parse_request_line(&request_line) {
         Ok(mut request) => {
-            request.body = Some(String::from(r#"{"name": "John Doe", "email": "john.doe@example.com"}"#));
+            request.body = Some("Hello World!".to_string());
             println!("\n Request: ");
             println!("\n Method: {}", request.method);
             println!("\n URI: {}", request.uri);
@@ -60,7 +60,11 @@ fn main() -> io::Result<()> {
     // accept connections and process them serially
     for stream in listener.incoming() {
         match stream {
-            Ok(stream) => handle_client(stream)?,
+            Ok(stream) => {
+                listener.accept()?;
+                println!("Accepted Stream");
+                handle_client(stream)?;
+            },
             Err(e) => {
                 println!("{}", e);
             },

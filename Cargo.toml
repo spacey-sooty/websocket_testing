@@ -1,5 +1,5 @@
 [package]
-name = "ws"
+name = "websocket_testing"
 version = "0.1.0"
 edition = "2021"
 
